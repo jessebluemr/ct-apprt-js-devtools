@@ -1,11 +1,25 @@
 {
-    "manifest_version" : 2,
-
-    "name" : "ct-apprtjs-devtools",
-    "version" : "0.0.1",
-
-    "description" : "app runtime developer tools for map.apps",
-    "author" : "m.reiprecht@conterra.de",
-
-    "devtools_page" : "html/devtools.html"
+    "manifest_version": 2,
+    "name": "ct-apprtjs-devtools",
+    "version": "0.0.1",
+    "description": "app runtime developer tools for map.apps",
+    "author": "m.reiprecht@conterra.de",
+    "devtools_page": "html/devtools.html",
+    "background": {
+        "scripts": [
+            "hot-reload.js"
+        ]
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "http://*/*",
+                "https://*/*"
+            ],
+            "run_at": "document_start",
+            "js": [
+                "js/spy/inject.js"
+            ]
+        }
+    ]
 }

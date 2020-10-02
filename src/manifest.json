@@ -1,0 +1,11 @@
+{
+    "manifest_version" : 2,
+
+    "name" : "ct-apprtjs-devtools",
+    "version" : "0.0.1",
+
+    "description" : "app runtime developer tools for map.apps",
+    "author" : "m.reiprecht@conterra.de",
+
+    "devtools_page" : "html/devtools.html"
+}

@@ -3,7 +3,9 @@ export function createStore() {
         state: {
             isAppRtApplication: false,
             systemBundleAvailable: false,
-            bundles: []
+            bundles: [],
+            services: [],
+            components: []
         },
 
         resolveBundles() {
@@ -11,7 +13,16 @@ export function createStore() {
                 state.bundles = result;
             });
         },
-
+        resolveServices() {
+            this.invoke("$apprt.$spy.services", (state, result) => {
+                state.services = result;
+            });
+        },
+        resolveComponents() {
+            this.invoke("$apprt.$spy.components", (state, result) => {
+                state.components = result;
+            });
+        },
         startOrStopBundle(bundle) {
             const state = bundle.state;
             const method = state === "ACTIVE" ? "stopBundle" : "startBundle";

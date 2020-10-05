@@ -2,7 +2,7 @@ export function createStore() {
     const self = {
         state: {
             isAppRtApplication: false,
-            systemBundleAvailable: false,
+            isSystemBundleAvailable: false,
             bundles: [],
             services: [],
             components: []
@@ -44,10 +44,10 @@ export function createStore() {
                         }
                     );
                 }
-                if (!self.state.systemBundleAvailable) {
+                if (!self.state.isSystemBundleAvailable) {
                     self.invoke("$apprt.$spy.ready",
                         (state, result) => {
-                            self.state.systemBundleAvailable = !!result;
+                            self.state.isSystemBundleAvailable = !!result;
                             setTimeout(lookup, 300);
                         }
                     );

@@ -7,7 +7,7 @@
         md-fixed-header
     >
         <md-table-toolbar>
-            <h1 class="md-title">Bundels
+            <h1 class="md-title">Bundles
                 <md-button
                     class="md-primary"
                     v-on:click="refresh"

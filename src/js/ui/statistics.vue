@@ -7,7 +7,7 @@
         md-fixed-header
     >
         <md-table-toolbar>
-            <h1 class="md-title">Services
+            <h1 class="md-title">Statistics
                 <md-button
                     class="md-primary"
                     v-on:click="refresh"
@@ -32,33 +32,49 @@
             slot-scope="{ item }"
         >
             <md-table-cell
-                md-label="ID"
+                md-label="Name"
+                md-sort-by="name"
+            >{{ item.name }}</md-table-cell>
+            <md-table-cell
+                md-label="Avg"
                 md-numeric
-                md-sort-by="id"
-            >{{ item.id }}</md-table-cell>
+                md-sort-by="avg"
+            >{{ item.avg }}</md-table-cell>
             <md-table-cell
-                md-label="Provides"
-                md-sort-by="provide"
-            >{{ item.provide }}</md-table-cell>
-            <md-table-cell
-                md-label="Component"
-                md-sort-by="component"
-            >{{ item.component }}</md-table-cell>
-            <md-table-cell
-                md-label="Bundle"
-                md-sort-by="bundle"
-            >{{ item.bundle }}</md-table-cell>
-            <md-table-cell
-                md-label="Ranking"
-                md-sort-by="ranking"
+                md-label="Min"
                 md-numeric
-            >{{ item.ranking }}</md-table-cell>
+                md-sort-by="ming"
+            >{{ item.max }}</md-table-cell>
+            <md-table-cell
+                md-label="Max"
+                md-numeric
+                md-sort-by="max"
+            >{{ item.max }}</md-table-cell>
+            <md-table-cell
+                md-label="Sum"
+                md-numeric
+                md-sort-by="sum"
+            >{{ item.sum }}</md-table-cell>
+            <md-table-cell
+                md-label="Invokes"
+                md-sort-by="org_count"
+                md-numeric
+            >{{ item.org_count }}</md-table-cell>
+            <md-table-cell
+                md-label="Invokes (finished)"
+                md-sort-by="count"
+                md-numeric
+            >{{ item.count }}</md-table-cell>
+            <md-table-cell
+                md-label="Unfinished"
+                md-sort-by="unfinished"
+            >{{ item.unfinished }}</md-table-cell>
         </md-table-row>
     </md-table>
 </template>
 <script>
     export default {
-        name: "services-table",
+        name: "statistics-table",
         props: {
             store: {
                 type: Object,
@@ -72,7 +88,7 @@
         },
         computed: {
             items() {
-                return this.store?.state?.services ?? [];
+                return this.store?.state?.statistics ?? [];
             },
             filteredItems() {
                 let term = this.searchTerm;
@@ -80,12 +96,12 @@
                     return this.items;
                 }
                 term = toLower(term);
-                return this.items.filter((item) => toLower(item.provide).includes(term));
+                return this.items.filter((item) => toLower(item.name).includes(term));
             }
         },
         methods: {
             refresh() {
-                this.store.resolveServices();
+                this.store.resolveStatistics();
             }
         }
     }

@@ -46,6 +46,12 @@ export function createSpy() {
                 }
                 return cpRuntime.getAllComponents().map(toComponentInfo);
             },
+            get statisticData() : Record<string,any>{
+                if (!spy.ready) {
+                    return {};
+                }
+                return apprt[$system].getBundleContext().getStatistics()?.data?.() ?? {};
+            },
             startBundle(id) {
                 const bundle = apprt[$system].getBundleContext().getBundle(id);
                 bundle.start();

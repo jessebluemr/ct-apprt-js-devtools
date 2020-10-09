@@ -83,7 +83,7 @@
                     return this.items;
                 }
                 term = toLower(term);
-                return this.items.filter((b) => toLower(b.name).includes(term));
+                return this.items.filter((item) => toLower(item.name).includes(term));
             }
         },
         methods: {

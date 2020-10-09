@@ -5,7 +5,8 @@ export function createStore() {
             isSystemBundleAvailable: false,
             bundles: [],
             services: [],
-            components: []
+            components: [],
+            statistics: []
         },
 
         resolveBundles() {
@@ -21,6 +22,11 @@ export function createStore() {
         resolveComponents() {
             this.invoke("$apprt.$spy.components", (state, result) => {
                 state.components = result;
+            });
+        },
+        resolveStatistics() {
+            this.invoke("$apprt.$spy.statisticData", (state, result) => {
+                state.statistics = toReducedStatistics(result);
             });
         },
         startOrStopBundle(bundle) {
@@ -67,4 +73,65 @@ function invoke(store, method, callback) {
             callback.call(store, store.state, result);
         }
     );
+}
+
+function toReducedStatistics(fullStatisticsData: Record<string, StatisticMeasureItem[]>): CalcStatisticItem[] {
+    return Object.values(fullStatisticsData).map(calcStatistics);
+}
+
+
+function calcStatistics(itemarr: StatisticMeasureItem[]): CalcStatisticItem {
+    let count = itemarr.length;
+    let name = itemarr[0].name;
+    let unfinished = false;
+    let min;
+    let max;
+    let sum;
+    for (let i = 0, l = count; i < l; ++i) {
+        const notFinished = !itemarr[i].end;
+        if (notFinished) {
+            --count;
+            unfinished = true;
+            continue;
+        }
+        const time = itemarr[i].end - itemarr[i].start;
+        if (sum === undefined) {
+            // Is first
+            min = time;
+            max = time;
+            sum = time;
+        } else {
+            min = Math.min(time, min);
+            max = Math.max(time, max);
+            sum += time;
+        }
+    }
+    return {
+        name,
+        min,
+        max,
+        sum,
+        avg: sum / count,
+        count,
+        unfinished,
+        org_count: itemarr.length
+    };
+
+}
+
+interface StatisticMeasureItem {
+    name: string,
+    start: number,
+    end: number | undefined
+}
+
+interface CalcStatisticItem {
+    name: string,
+    min: number;
+    max: number;
+    sum: number;
+    avg: number;
+    count: number;
+    unfinished: boolean;
+    org_count: number
 }

@@ -21,6 +21,10 @@
                     id="tab-services"
                     md-label="Services"
                 ></md-tab>
+                <md-tab
+                    id="tab-statistics"
+                    md-label="Statistics"
+                ></md-tab>
             </md-tabs>
             <info
                 v-if="activeTab === 'tab-info'"
@@ -38,6 +42,10 @@
                 v-if="activeTab === 'tab-services'"
                 v-bind:store="store"
             ></services-table>
+            <statistics-table
+                v-if="activeTab === 'tab-statistics'"
+                v-bind:store="store"
+            ></statistics-table>
         </md-app-content>
     </md-app>
 </template>
@@ -45,7 +53,9 @@
     import Info from "./info.vue";
     import BundlesTable from "./bundles.vue";
     import ServicesTable from "./services.vue";
+    import StatisticsTable from "./statistics.vue";
     import ComponentsTable from "./components.vue";
+
     export default {
         data: {
             store: undefined,
@@ -56,7 +66,8 @@
             Info,
             BundlesTable,
             ServicesTable,
-            ComponentsTable
+            ComponentsTable,
+            StatisticsTable
         },
         computed: {
         },
@@ -72,6 +83,9 @@
                         break;
                     case "tab-services":
                         this.store.resolveServices();
+                        break;
+                    case "tab-statistics":
+                        this.store.resolveStatistics();
                         break;
                 }
             }

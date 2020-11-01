@@ -4,7 +4,10 @@
             <span class="md-title">{{ message }}</span>
         </md-app-toolbar>
         <md-app-content>
-            <md-tabs @md-changed="activeTabChanged">
+            <md-tabs
+                :md-active-tab="activeTab"
+                @md-changed="activeTabChanged"
+            >
                 <md-tab
                     id="tab-info"
                     md-label="Info"
@@ -12,18 +15,22 @@
                 <md-tab
                     id="tab-bundles"
                     md-label="Bundles"
+                    :md-disabled="noDataAccess"
                 ></md-tab>
                 <md-tab
                     id="tab-components"
                     md-label="Components"
+                    :md-disabled="noDataAccess"
                 ></md-tab>
                 <md-tab
                     id="tab-services"
                     md-label="Services"
+                    :md-disabled="noDataAccess"
                 ></md-tab>
                 <md-tab
                     id="tab-statistics"
                     md-label="Statistics"
+                    :md-disabled="noDataAccess"
                 ></md-tab>
             </md-tabs>
             <info
@@ -70,22 +77,39 @@
             StatisticsTable
         },
         computed: {
+            noDataAccess() {
+                return !(this.store?.state?.isSystemBundleAvailable);
+            }
         },
         methods: {
+            showInfo() {
+                this.activeTab = "tab-info";
+            },
             activeTabChanged(id) {
+                if (this.activeTab === id) {
+                    return;
+                }
                 this.activeTab = id;
                 switch (id) {
                     case "tab-bundles":
-                        this.store.resolveBundles();
+                        if (!this.store.hasBundles()) {
+                            this.store.resolveBundles();
+                        }
                         break;
                     case "tab-components":
-                        this.store.resolveComponents();
+                        if (!this.store.hasComponents()) {
+                            this.store.resolveComponents();
+                        }
                         break;
                     case "tab-services":
-                        this.store.resolveServices();
+                        if (!this.store.hasServices()) {
+                            this.store.resolveServices();
+                        }
                         break;
                     case "tab-statistics":
-                        this.store.resolveStatistics();
+                        if (!this.store.hasStatistics()) {
+                            this.store.resolveStatistics();
+                        }
                         break;
                 }
             }

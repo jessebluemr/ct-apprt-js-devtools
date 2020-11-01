@@ -16,7 +16,8 @@ export default {
     input: [
         'src/js/devtools.ts',
         'src/js/ui/panel.ts',
-        'src/js/spy/inject.ts'
+        'src/js/spy/inject.ts',
+        'src/js/spy/background.ts'
     ],
     output: {
         dir: 'dist',

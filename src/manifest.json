@@ -5,10 +5,16 @@
     "description": "app runtime developer tools for map.apps",
     "author": "m.reiprecht@conterra.de",
     "devtools_page": "html/devtools.html",
+    "permissions": [
+        "activeTab",
+        "*://*/*"
+    ],
     "background": {
         "scripts": [
-            "hot-reload.js"
-        ]
+            "hot-reload.js",
+            "js/spy/background.js"
+        ],
+        "persistent": false
     },
     "content_scripts": [
         {

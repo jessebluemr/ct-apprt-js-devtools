@@ -1,12 +1,13 @@
 import { createSpy } from "./spy";
+
 if (window["$apprt"]) {
     console.warn("$apprt already defined, please reload the window.");
 } else {
     (function () {
-        if (!document.contentType || !document.contentType.startsWith("text/html")){
+        if (!document.contentType || !document.contentType.startsWith("text/html")) {
             return;
         }
-        if (document.documentElement && !/html/i.test(document.documentElement.tagName)){
+        if (document.documentElement && !/html/i.test(document.documentElement.tagName)) {
             return;
         }
         var s = document.createElement("script");
